@@ -161,7 +161,7 @@
             <div class="card">
               <img src="GALLERY/Al-Markaz.jpeg" class="card-img-top" alt="Gallery 4" />
               <div class="card-body">
-                <p class="card-text">Al-Markaz, It's a big Mosque in my city. Favorite Cool Mosque</p>
+                <p class="card-text">Al-Markaz, It's a big Mosque in my city. One of the biggest mosque in my city.</p>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@
             <div class="card">
               <img src="GALLERY/Hobbies.jpeg" class="card-img-top" alt="Gallery 5" />
               <div class="card-body">
-                <p class="card-text">Hobbies: Designing, drawing, etc. Almost everything related to Art</p>
+                <p class="card-text">Hobbies: Designing, drawing, singing etc. Almost everything related to Art</p>
               </div>
             </div>
           </div>
@@ -200,20 +200,32 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-8">
-            <form>
+            <div class="alert alert-success alert-dismissible fade show d-none the-alert" role="alert">
+              <strong>Thank you for visiting !</strong> We already received your massage.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <form name="File-Contact">
               <div class="mb-3">
                 <label for="Name" class="form-label">Full Name</label>
-                <input type="email" class="form-control" id="name" aria-describedby="name" />
+                <input type="Name" class="form-control" id="na   me" aria-describedby="name" name="name" />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" aria-describedby="email" />
+                <input type="email" class="form-control" id="email" aria-describedby="email" name="email" />
+              </div>
+              <div class="mb-3">
+                <label for="Instagram" class="form-label">Social Media</label>
+                <input type="Name" class="form-control" id="name" aria-describedby="name" name="Instagram" />
               </div>
               <div class="mb-3">
                 <label for="msg" class="form-label">Massage</label>
-                <textarea class="form-control" id="msg" rows="3"></textarea>
+                <textarea class="form-control" id="msg" rows="3" name="massage"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">Send</button>
+              <button type="submit" class="btn btn-primary btn-send">Send</button>
+              <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
             </form>
           </div>
         </div>
@@ -251,5 +263,33 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyTZCeEoBWE9BLlqOEP8FmAyaFEPp1WOjW2R4qk4XDJULCuEP98Ud4VspJkgaJ0z6rU0A/exec';
+      const form = document.forms['File-Contact'];
+      const btnsend = document.querySelector('.btn-send');
+      const btnloading = document.querySelector('.btn-loading');
+      const thealert = document.querySelector('.the-alert');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // when clicked the submitting button
+        // showing the loading button remove the submitting button
+        btnloading.classList.toggle('d-none');
+        btnsend.classList.toggle('d-none');
+        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+          .then((response) => {
+            // showing the submitting button remove the loading button
+            btnloading.classList.toggle('d-none');
+            btnsend.classList.toggle('d-none');
+            // success alert
+            thealert.classList.toggle('d-none');
+            // reset form
+            form.reset();
+            console.log('Success!', response);
+          })
+          .catch((error) => console.error('Error!', error.message));
+      });
+    </script>
   </body>
 </html>
